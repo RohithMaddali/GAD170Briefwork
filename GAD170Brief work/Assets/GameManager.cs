@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     //Objects for combat
     public GameObject enemyobj;
     public GameObject playerobj;
-    public int count = 0;
+    public int count = 1;
 
     void Start()
     {
@@ -62,15 +62,10 @@ public class GameManager : MonoBehaviour
             case CombatState.Playerturn:
                 //decision - attack
                 //attack the enemy
-                count++;
                 BattleRound(playerobj, enemyobj);
                 //check if enemy is defeated
-                if (enemyobj.GetComponent<Stats>().isDefeated)
-                {
-                    Debug.Log("Enemy is defeated in " + count + " hits.");
-                    SpawnEnemy();
-                    count = 0;
-                }
+                if (enemyobj.GetComponent<Stats>().isDefeated)     
+                     SpawnEnemy();                  
                 //next case is most likely enemy's turn
                 combatState = CombatState.Enemyturn;
                 break;
@@ -113,6 +108,7 @@ public class GameManager : MonoBehaviour
         //will take an attacker and defender and then make them do combat
         if (attacker.name == "Capsule")
         {
+            count += 1;
             attacker.GetComponent<Stats>().attack = Random.Range(45, 56);
             defender.GetComponent<Stats>().Attacked(attacker.GetComponent<Stats>().attack, Stats.StatusEffect.none);
             Debug.Log("Attacker: " + attacker.name + " | Defender: " + defender.name);
@@ -121,6 +117,7 @@ public class GameManager : MonoBehaviour
                 " For a total of " +
                 (attacker.GetComponent<Stats>().attack - defender.GetComponent<Stats>().defense) +
                 " Damage ");
+            Debug.Log("The hit count is " + count);
         }
         else
         {
