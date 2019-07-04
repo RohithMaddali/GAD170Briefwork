@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     //Objects for combat
     public GameObject enemyobj;
     public GameObject playerobj;
+    public int count = 0;
 
     void Start()
     {
@@ -61,10 +62,15 @@ public class GameManager : MonoBehaviour
             case CombatState.Playerturn:
                 //decision - attack
                 //attack the enemy
+                count++;
                 BattleRound(playerobj, enemyobj);
                 //check if enemy is defeated
                 if (enemyobj.GetComponent<Stats>().isDefeated)
+                {
+                    Debug.Log("Enemy is defeated in " + count + " hits.");
                     SpawnEnemy();
+                    count = 0;
+                }
                 //next case is most likely enemy's turn
                 combatState = CombatState.Enemyturn;
                 break;
@@ -104,7 +110,10 @@ public class GameManager : MonoBehaviour
     }
         public void BattleRound(GameObject attacker, GameObject defender)
         {
-            //will take an attacker and defender and then make them do combat
+        //will take an attacker and defender and then make them do combat
+        if (attacker.name == "Capsule")
+        {
+            attacker.GetComponent<Stats>().attack = Random.Range(45, 56);
             defender.GetComponent<Stats>().Attacked(attacker.GetComponent<Stats>().attack, Stats.StatusEffect.none);
             Debug.Log("Attacker: " + attacker.name + " | Defender: " + defender.name);
             Debug.Log(attacker.name +
@@ -113,10 +122,21 @@ public class GameManager : MonoBehaviour
                 (attacker.GetComponent<Stats>().attack - defender.GetComponent<Stats>().defense) +
                 " Damage ");
         }
+        else
+        {
+            defender.GetComponent<Stats>().Attacked(attacker.GetComponent<Stats>().attack, Stats.StatusEffect.none);
+            Debug.Log("Attacker: " + attacker.name + " | Defender: " + defender.name);
+            Debug.Log(attacker.name +
+                " Attacks " + defender.name +
+                " For a total of " +
+                (attacker.GetComponent<Stats>().attack - defender.GetComponent<Stats>().defense) +
+                " Damage ");
+        }
+        }
     IEnumerator Battlego()
     {
         CheckCombatState();
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         doBattle = true;
     }
 

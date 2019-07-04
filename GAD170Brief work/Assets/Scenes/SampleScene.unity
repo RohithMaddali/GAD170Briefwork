@@ -818,7 +818,8 @@ MonoBehaviour:
   gameState: 0
   combatState: 0
   enemyobj: {fileID: 1249922443}
-  playerobj: {fileID: 2109557742}
+  playerobj: {fileID: 4570765803880349567}
+  count: 0
 --- !u!1001 &1402362627
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1391,12 +1392,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 917dff3e2fb88a5439b05057c5e6afc9, type: 3}
---- !u!1 &2109557742 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2845171086978491377, guid: cf7eccc7ce40dab45a44ffb910a6b85b,
-    type: 3}
-  m_PrefabInstance: {fileID: 1185133685}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1668974713898010238
 PrefabInstance:
   m_ObjectHideFlags: 0
