@@ -9,8 +9,11 @@ public class Stats : MonoBehaviour
     public int attspeed;
     public int defense;
     public int luck;
-    public int level;
-    public int exp;
+    public int level = 0;
+    public int Enemylvl = 0;
+    public int expGained;
+    public int TotalExp;
+    public int reqExp;
 
     public bool isDefeated;
 
