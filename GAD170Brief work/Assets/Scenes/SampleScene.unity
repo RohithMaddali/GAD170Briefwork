@@ -850,7 +850,6 @@ MonoBehaviour:
   - {fileID: 1987787242}
   EnemySpawnList: []
   EnemyToFight: {fileID: 0}
-  doBattle: 1
   nooFEnemies: 2
   gameState: 0
   combatState: 0

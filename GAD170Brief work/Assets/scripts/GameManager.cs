@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public List<GameObject> EnemySpawnList;
     //current enemy the player would fight.
     public GameObject EnemyToFight;
-    public bool doBattle = true;
+    bool doBattle = true;
     public int nooFEnemies;
     private int count = 0;
     int defeatCount = 0;
@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        //public bool doBattle = true;
         for (int i = 0; i < nooFEnemies; i++)
         {
             GameObject SpawnedEnemy = Instantiate(EnemyList[Random.Range(0, EnemyList.Count)], transform);
@@ -51,6 +52,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        
         if (doBattle == true)
         {
             StartCoroutine(Battlego());
@@ -262,13 +264,10 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator Battlego()
     {
-        
-        yield return new WaitForSeconds(3f);
         CheckCombatState();
+        yield return new WaitForSeconds(3f);
         doBattle = true;
-        
-        
-    }
+    }   
 
 
 }
