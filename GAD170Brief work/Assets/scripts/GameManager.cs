@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     //current enemy the player would fight.
     public GameObject EnemyToFight;
     bool doBattle = true;
+    public bool isInCombat = true;
     public int nooFEnemies;
     private int count = 0;
     int defeatCount = 0;
@@ -71,12 +72,13 @@ public class GameManager : MonoBehaviour
     void CheckCombatState()
     {
         //use switch to check cases for player turn and enemies turn.
-        
+
+
         switch (combatState)
         {
             case CombatState.Playerturn:
                 //if( Input.GetKeyDown(KeyCode.Space))
-                // {
+                 //{
                 //player attacks
                 int Hdiff = EnemyToFight.GetComponent<Stats>().health - playerobj.GetComponent<Stats>().health;
                 if (Hdiff < 50)
@@ -154,10 +156,10 @@ public class GameManager : MonoBehaviour
                         Debug.Log("Attack missed");
                         combatState = CombatState.Enemyturn;
                     }
-                }
+                //}
                 
                 //player eneds turn.
-                // }
+                 }
                 break;
             case CombatState.Enemyturn:       
                 //enemy attacks.
@@ -174,11 +176,13 @@ public class GameManager : MonoBehaviour
                 //player wins if all the required numbe rof enemies are defeated.
                 Debug.Log("No of enemies defeated: " + defeatCount);
                 doBattle = false;
+                isInCombat = false;
                 //Display victory message.
                 break;
             case CombatState.Loss:
                 //player loses if his health reaches 0.
                 Debug.Log("Game Over!!!");
+                isInCombat = false;
                 //display game over message.
                 break;
         }
@@ -264,6 +268,7 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator Battlego()
     {
+        if(isInCombat)
         CheckCombatState();
         yield return new WaitForSeconds(3f);
         doBattle = true;
