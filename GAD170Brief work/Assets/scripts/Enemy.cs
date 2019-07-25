@@ -18,7 +18,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         //finding our game manager
-        GameManager = GameObject.FindGameObjectWithTag("GameManager");
+        GameManager = GameObject.FindGameObjectWithTag("BattleManager");
         myStats = GetComponent<Stats>();
         switch (myType)
         {
@@ -35,6 +35,6 @@ public class Enemy : MonoBehaviour
     }
         public void Defeated()
         {
-            GameManager.GetComponent<GameManager>().RemoveEnemy(gameObject);
+            GameManager.GetComponent<BattleManager>().RemoveEnemy(gameObject);
         }
     }
