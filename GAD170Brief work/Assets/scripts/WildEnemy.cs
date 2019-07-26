@@ -11,23 +11,24 @@ public class WildEnemy : MonoBehaviour
     void Start()
     {
         gameManager = GameObject.FindGameObjectWithTag("GameManager");
-        EnemySpotted();
+        //EnemySpotted();
     }
 
-    void EnemySpotted()
+    /*void EnemySpotted()
     {
         if(isInGrass)
         {
             //encounter! Load battle scene
             gameManager.GetComponent<GameManager>().TravelToWorld(GameManager.Worlds.BattleScene);
         }
-    }
+    }*/
 
     private void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.tag == "Player")
         {
             isInGrass = true;
+            gameManager.GetComponent<GameManager>().TravelToWorld(GameManager.Worlds.BattleScene);
         }
 
     }
