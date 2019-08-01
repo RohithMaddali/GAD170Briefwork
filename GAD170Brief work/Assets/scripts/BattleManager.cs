@@ -19,6 +19,8 @@ public class BattleManager : MonoBehaviour
 
     private GameObject gameManager;
 
+    public event System.Action<bool, float> UpdateHealth;
+
     //check the player's state.
     public enum GameState
     {
@@ -49,6 +51,7 @@ public class BattleManager : MonoBehaviour
             EnemySpawnList.Add(SpawnedEnemy);
         }
         SetNewEnemyToFight();
+        //UpdateHealth(true, 0.5f);
         
 
     }
@@ -250,11 +253,17 @@ public class BattleManager : MonoBehaviour
             if (EnemyToFight.GetComponent<Stats>().isDefeated)
             {
                 Debug.Log("Enemy hp : " + " 0 ");
+                
             }
             else
             {
                 Debug.Log("Enemy hp : " + EnemyToFight.GetComponent<Stats>().health);
+               
             }
+            /*float percentage = EnemyToFight.GetComponent<Stats>().health / defender.GetComponent<Stats>().maxHP;
+            UpdateHealth(combatState == CombatState.Enemyturn, percentage);
+            Debug.Log(percentage);*/
+
         }
         if(attacker == EnemyToFight)
         {
@@ -268,6 +277,10 @@ public class BattleManager : MonoBehaviour
             {
                 Debug.Log("Player hp : " + playerobj.GetComponent<Stats>().health);
             }
+            /*float percentage = EnemyToFight.GetComponent<Stats>().health / defender.GetComponent<Stats>().maxHP;
+            UpdateHealth(combatState == CombatState.Playerturn, percentage);
+            Debug.Log(percentage);*/
+
         }
     }
     IEnumerator Battlego()

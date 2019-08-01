@@ -14,6 +14,7 @@ public class Stats : MonoBehaviour
     public int expGained;
     public int TotalExp;
     public int reqExp;
+    public int maxHP;
 
     public bool isDefeated;
 
