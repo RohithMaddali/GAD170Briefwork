@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
 
 public class BattleManager : MonoBehaviour
 {
@@ -19,7 +21,7 @@ public class BattleManager : MonoBehaviour
 
     private GameObject gameManager;
 
-    public event System.Action<bool, float> UpdateHealth;
+    public event System.Action<int, float> UpdateHealth;
 
     //check the player's state.
     public enum GameState
@@ -85,7 +87,7 @@ public class BattleManager : MonoBehaviour
                 //if( Input.GetKeyDown(KeyCode.Space))
                  //{
                 //player attacks
-                int Hdiff = EnemyToFight.GetComponent<Stats>().health - playerobj.GetComponent<Stats>().health;
+                float Hdiff = EnemyToFight.GetComponent<Stats>().health - playerobj.GetComponent<Stats>().health;
                 if (Hdiff < 50)
                 {
                     if (Random.Range(1, 11) > 2)
@@ -144,6 +146,7 @@ public class BattleManager : MonoBehaviour
                             //PLAYER LEVELS UP
                             playerobj.GetComponent<Stats>().level += 1;
                             playerobj.GetComponent<Stats>().health += 10;
+                            playerobj.GetComponent<Stats>().maxHP += 10;
                             Debug.Log("^LEVEL UP^");
                             SkillSelect();
                             //enemy levels up if player leveld up
@@ -247,9 +250,10 @@ public class BattleManager : MonoBehaviour
     {
         if(attacker == playerobj)
         {
+            Debug.Log("PLAYER ATTACKS ENEMY");
             defender.GetComponent<Stats>().Attacked(attacker.GetComponent<Stats>().attack, Stats.StatusEffect.none);
             count++;
-            Debug.Log("PLAYER ATTACKS ENEMY");
+            
             if (EnemyToFight.GetComponent<Stats>().isDefeated)
             {
                 Debug.Log("Enemy hp : " + " 0 ");
@@ -260,15 +264,17 @@ public class BattleManager : MonoBehaviour
                 Debug.Log("Enemy hp : " + EnemyToFight.GetComponent<Stats>().health);
                
             }
-            /*float percentage = EnemyToFight.GetComponent<Stats>().health / defender.GetComponent<Stats>().maxHP;
-            UpdateHealth(combatState == CombatState.Enemyturn, percentage);
-            Debug.Log(percentage);*/
+            float percentage = EnemyToFight.GetComponent<Stats>().health / defender.GetComponent<Stats>().maxHP;
+            UpdateHealth(2, percentage);
+            //Debug.Log(percentage);
+            
 
         }
         if(attacker == EnemyToFight)
         {
-            defender.GetComponent<Stats>().Attacked(attacker.GetComponent<Stats>().attack, Stats.StatusEffect.none);
             Debug.Log("ENEMY ATTACKS PLAYER");
+            defender.GetComponent<Stats>().Attacked(attacker.GetComponent<Stats>().attack, Stats.StatusEffect.none);
+            
             if (EnemyToFight.GetComponent<Stats>().isDefeated)
             {
                 Debug.Log("Player hp : " + " 0 ");
@@ -277,9 +283,9 @@ public class BattleManager : MonoBehaviour
             {
                 Debug.Log("Player hp : " + playerobj.GetComponent<Stats>().health);
             }
-            /*float percentage = EnemyToFight.GetComponent<Stats>().health / defender.GetComponent<Stats>().maxHP;
-            UpdateHealth(combatState == CombatState.Playerturn, percentage);
-            Debug.Log(percentage);*/
+            float percentage = playerobj.GetComponent<Stats>().health / defender.GetComponent<Stats>().maxHP;
+            UpdateHealth(1, percentage);
+            //Debug.Log(percentage);
 
         }
     }

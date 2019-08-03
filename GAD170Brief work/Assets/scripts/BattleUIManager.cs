@@ -41,13 +41,13 @@ public class BattleUIManager : MonoBehaviour
         
     }
 
-    public void UpdateHealthBar(bool isplayer, float health)
+    public void UpdateHealthBar(int isplayer, float health)
     {
-        if(isplayer)
+        if(isplayer == 1)
         {
             phealthBarFill.fillAmount = health;
         }
-        else
+        else if(isplayer == 2)
         {
             ehealthBarFill.fillAmount = health;
         }
@@ -84,7 +84,7 @@ public class BattleUIManager : MonoBehaviour
         combatLog.Insert(0, p);
         combatLog.Insert(1, e);*/
 
-        combatLog.Insert(0, " Player Attacks Enemy________");
+        combatLog.Insert(0, " ________");
 
 
         if (combatLog.Count > combatLogLines.Length)
@@ -96,7 +96,7 @@ public class BattleUIManager : MonoBehaviour
         {
            if(bManager.GetComponent<BattleManager>().combatState == BattleManager.CombatState.Playerturn)
             {
-                combatLogLines[i].text = combatLog[i].Insert(i, "Player Attacks Enemy___________");
+                combatLogLines[i].text = combatLog[i].Insert(i, "Player Attacks Enemy__________");
             }
            else if(bManager.GetComponent<BattleManager>().combatState == BattleManager.CombatState.Enemyturn)
             {

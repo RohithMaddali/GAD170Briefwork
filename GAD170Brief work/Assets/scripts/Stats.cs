@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour
 {
-    public int health;
+    public float health;
     public int attack;
     public int attspeed;
     public int defense;
@@ -14,7 +14,7 @@ public class Stats : MonoBehaviour
     public int expGained;
     public int TotalExp;
     public int reqExp;
-    public int maxHP;
+    public float maxHP;
 
     public bool isDefeated;
 
