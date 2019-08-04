@@ -21,7 +21,8 @@ public class BattleUIManager : MonoBehaviour
     public event System.Action CallAttackButton;
 
     public Text[] combatLogLines;
-    public List<string> combatLog;
+
+    BattleManager BManager;
 
     void Awake()
     {
@@ -32,7 +33,7 @@ public class BattleUIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(DebugLogTest());
+        //StartCoroutine(DebugLogTest());
     }
 
     // Update is called once per frame
@@ -55,6 +56,7 @@ public class BattleUIManager : MonoBehaviour
 
     public void CallAttackButtonEvent()
     {
+        combatLogLines[0].text = "Player Attacked the Enemy";
         Debug.Log("Attacked");
         CallAttackButton();
     }
@@ -77,12 +79,12 @@ public class BattleUIManager : MonoBehaviour
         CallHealth();
     }
     //Function for updating text
-    public void UpdateCombatLog()
+    /*public void UpdateCombatLog()
     {
         /*string p = "Player Attacks Enemy";
         string e = "Enemy Attacks Player";
         combatLog.Insert(0, p);
-        combatLog.Insert(1, e);*/
+        combatLog.Insert(1, e);
 
         combatLog.Insert(0, " ________");
 
@@ -103,14 +105,14 @@ public class BattleUIManager : MonoBehaviour
                 combatLogLines[i].text = combatLog[i].Insert(i, "Enemy Attacks Player___________");
             }
         }
-        StartCoroutine(DebugLogTest());
+        //StartCoroutine(DebugLogTest());
     }
 
-    IEnumerator DebugLogTest()
+    /*IEnumerator DebugLogTest()
     {
         int randomNumber = Random.Range(1, 1000);
 
         yield return new WaitForSeconds(3f);
         UpdateCombatLog();
-    }
+    }*/
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 
 public class BattleManager : MonoBehaviour
@@ -42,37 +43,55 @@ public class BattleManager : MonoBehaviour
     public CombatState combatState;
     //objects to store player's and enemy's stats.
     public GameObject playerobj;
-    
+    private GameObject battleUIManager;
+    private CombatState combatstate;
 
     void Start()
     {
         //public bool doBattle = true;
-        for (int i = 0; i < nooFEnemies; i++)
+        foreach (GameObject Enemy in GameObject.FindGameObjectsWithTag("Enemy"))
         {
-            GameObject SpawnedEnemy = Instantiate(EnemyList[Random.Range(0, EnemyList.Count)], transform);
-            EnemySpawnList.Add(SpawnedEnemy);
+
+
+            for (int i = 0; i < nooFEnemies; i++)
+            {
+                EnemySpawnList.Add(Enemy);
+                GameObject SpawnedEnemy = Instantiate(EnemyList[Random.Range(0, EnemyList.Count)], transform);
+                //EnemySpawnList.Add(SpawnedEnemy);
+            }
         }
         SetNewEnemyToFight();
-        //UpdateHealth(true, 0.5f);
-        
+        //UpdateHealth(true, 0.5f); 
+    }
 
+    void Awake()
+    {
+        battleUIManager = GameObject.FindGameObjectWithTag("BattleUIManager");
+        battleUIManager.GetComponent<BattleUIManager>().CallAttackButton += CheckCombatState;
+        battleUIManager.GetComponent<BattleUIManager>().CallDefense += SkillSelectDefense;
+        battleUIManager.GetComponent<BattleUIManager>().CallAttack += SkillSelectAttack;
+        battleUIManager.GetComponent<BattleUIManager>().CallHealth += SkillSelectHealth; ;
     }
 
     void Update()
     {
-        
+
         if (doBattle == true)
         {
             StartCoroutine(Battlego());
             doBattle = false;
         }
         
+        
+        
     }
+
+   
 
     void SetNewEnemyToFight()
         {
-            EnemyToFight = EnemySpawnList[Random.Range(0, EnemySpawnList.Count)];
-            //StartCoroutine(Battlego());
+            EnemyToFight = Instantiate(EnemySpawnList[Random.Range(0, EnemySpawnList.Count)], transform);
+        StartCoroutine(Battlego());
     }
 
  
@@ -108,8 +127,8 @@ public class BattleManager : MonoBehaviour
                             //PLAYER LEVELS UP
                             playerobj.GetComponent<Stats>().level += 1;
                             playerobj.GetComponent<Stats>().health += 10;
-                            Debug.Log("^LEVEL UP^");
-                            SkillSelect();
+                            Debug.Log("^LEVEL UP^ Select  a Skill to proceed");
+                            //SkillSelect();
                             //enemy levels up if player leveld up
                             //checks if enemy and player on same level and based on that increases the enemy's health.
                             //also increases enemy's level.
@@ -148,7 +167,7 @@ public class BattleManager : MonoBehaviour
                             playerobj.GetComponent<Stats>().health += 10;
                             playerobj.GetComponent<Stats>().maxHP += 10;
                             Debug.Log("^LEVEL UP^");
-                            SkillSelect();
+                            //SkillSelect();
                             //enemy levels up if player leveld up
                             //checks if enemy and player on same level and based on that increases the enemy's health.
                             //also increases enemy's level.
@@ -169,8 +188,9 @@ public class BattleManager : MonoBehaviour
                 //player eneds turn.
                  }
                 break;
-            case CombatState.Enemyturn:       
+            case CombatState.Enemyturn:
                 //enemy attacks.
+                //StartCoroutine(Battlego());
                 BattleRound(EnemyToFight, playerobj);
                 //player loses if enemy defeats the player.
                 if(playerobj.GetComponent<Stats>().isDefeated)
@@ -223,28 +243,30 @@ public class BattleManager : MonoBehaviour
     }
 
     //choose skills upon level up.
-    void SkillSelect()
+    void SkillSelectHealth()
     {
-        Debug.Log("Select the following"); 
-        Debug.Log("1. Health - H");
-        Debug.Log("2. Attack - A");
-        Debug.Log("3. Defense - D");
-        //if (Input.GetKeyDown(KeyCode.A))
-        //{
-            playerobj.GetComponent<Stats>().attack += 3;
-            Debug.Log("Player's Attack increased to " + playerobj.GetComponent<Stats>().attack);
-        //}
-       // else if (Input.GetKeyDown(KeyCode.H))
-        //{
-            playerobj.GetComponent<Stats>().health += 10;
-            Debug.Log("Player's Health increased to " + playerobj.GetComponent<Stats>().health);
-        //}
-       // else if (Input.GetKeyDown(KeyCode.D))
-        //{
-            playerobj.GetComponent<Stats>().defense += 1;
-            Debug.Log("Player's Defense increased to " + playerobj.GetComponent<Stats>().defense);
-        //}
+
+        playerobj.GetComponent<Stats>().health += 10;
+        playerobj.GetComponent<Stats>().maxHP += 10;
+        Debug.Log("Player's Health increased to " + playerobj.GetComponent<Stats>().health);
+        float percentage = playerobj.GetComponent<Stats>().health / playerobj.GetComponent<Stats>().maxHP;
+        UpdateHealth(1, percentage);
     }
+    void SkillSelectAttack()
+    {
+
+        playerobj.GetComponent<Stats>().attack += 3;
+        Debug.Log("Player's Attack increased to " + playerobj.GetComponent<Stats>().attack);
+    }
+
+    void SkillSelectDefense()
+    {
+
+         playerobj.GetComponent<Stats>().defense += 0.2f;
+            Debug.Log("Player's Defense increased to " + playerobj.GetComponent<Stats>().defense);
+    }
+    
+    
 
     void BattleRound(GameObject attacker, GameObject defender)
     {
@@ -292,10 +314,15 @@ public class BattleManager : MonoBehaviour
     IEnumerator Battlego()
     {
         if(isInCombat)
-        CheckCombatState();
+        {
+            if (combatstate == CombatState.Enemyturn)
+            {
+                CheckCombatState();
+            }
+        }
         yield return new WaitForSeconds(3f);
-        doBattle = true;
-    }   
+        //doBattle = true;
+    }  
 
 
 }

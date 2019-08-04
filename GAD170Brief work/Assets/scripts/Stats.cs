@@ -7,7 +7,7 @@ public class Stats : MonoBehaviour
     public float health;
     public int attack;
     public int attspeed;
-    public int defense;
+    public float defense;
     public int luck;
     public int level = 0;
     public int Enemylvl = 0;
