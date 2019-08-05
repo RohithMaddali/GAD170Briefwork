@@ -76,7 +76,8 @@ public class BattleManager : MonoBehaviour
     void Update()
     {
 
-        if (doBattle == true)
+        if (doBattle == true && combatState == CombatState.Enemyturn)
+            
         {
             StartCoroutine(Battlego());
             doBattle = false;
@@ -89,8 +90,8 @@ public class BattleManager : MonoBehaviour
    
 
     void SetNewEnemyToFight()
-        {
-            EnemyToFight = Instantiate(EnemySpawnList[Random.Range(0, EnemySpawnList.Count)], transform);
+    {
+        EnemyToFight = Instantiate(EnemySpawnList[Random.Range(0, EnemySpawnList.Count)], transform);
         StartCoroutine(Battlego());
     }
 
@@ -314,12 +315,7 @@ public class BattleManager : MonoBehaviour
     IEnumerator Battlego()
     {
         if(isInCombat)
-        {
-            if (combatstate == CombatState.Enemyturn)
-            {
-                CheckCombatState();
-            }
-        }
+        CheckCombatState();          
         yield return new WaitForSeconds(3f);
         //doBattle = true;
     }  
