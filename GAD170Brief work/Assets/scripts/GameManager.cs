@@ -50,15 +50,15 @@ public class GameManager : MonoBehaviour
         {
             case Worlds.WorldView:
                 //load overworld scene;
-                //SavePlayerStuff(false);
+                SavePlayerStuff(false);
                 SceneManager.LoadScene("WorldView");
-                //LoadPlayerStuff(true);
+                LoadPlayerStuff(true);
                 break;
             case Worlds.BattleScene:
                 //load battlescene
-                //SavePlayerStuff(true);
+                SavePlayerStuff(true);
                 SceneManager.LoadScene("BattleScene");
-                //LoadPlayerStuff(true);
+                LoadPlayerStuff(false);
                 break;
         }
     }
