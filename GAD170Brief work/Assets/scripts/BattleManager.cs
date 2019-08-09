@@ -49,17 +49,7 @@ public class BattleManager : MonoBehaviour
     void Start()
     {
         //public bool doBattle = true;
-        foreach (GameObject Enemy in GameObject.FindGameObjectsWithTag("Enemy"))
-        {
-
-
-            for (int i = 0; i < nooFEnemies; i++)
-            {
-                EnemySpawnList.Add(Enemy);
-                GameObject SpawnedEnemy = Instantiate(EnemyList[Random.Range(0, EnemyList.Count)], transform);
-                //EnemySpawnList.Add(SpawnedEnemy);
-            }
-        }
+        EnemySpawnList.Add(EnemyList[(Random.Range(0, EnemyList.Count))]);
         SetNewEnemyToFight();
         //UpdateHealth(true, 0.5f); 
     }
@@ -79,6 +69,7 @@ public class BattleManager : MonoBehaviour
         if (doBattle == true && combatState == CombatState.Enemyturn)
             
         {
+            
             StartCoroutine(Battlego());
             doBattle = false;
         }
@@ -91,11 +82,11 @@ public class BattleManager : MonoBehaviour
 
     void SetNewEnemyToFight()
     {
-        EnemyToFight = Instantiate(EnemySpawnList[Random.Range(0, EnemySpawnList.Count)], transform);
-        StartCoroutine(Battlego());
+        EnemyToFight = Instantiate(EnemySpawnList[0], transform);
+        //StartCoroutine(Battlego());
     }
 
- 
+
     void CheckCombatState()
     {
         //use switch to check cases for player turn and enemies turn.
@@ -105,101 +96,119 @@ public class BattleManager : MonoBehaviour
         {
             case CombatState.Playerturn:
                 //if( Input.GetKeyDown(KeyCode.Space))
-                 //{
-                //player attacks
-                float Hdiff = EnemyToFight.GetComponent<Stats>().health - playerobj.GetComponent<Stats>().health;
-                if (Hdiff < 50)
+                //check if player is dead
+                if (playerobj.GetComponent<Stats>().health <= 0)
                 {
-                    if (Random.Range(1, 11) > 2)
+                    combatState = CombatState.Loss;
+                }
+                else
+                {
+                    //{
+                    //player attacks
+                    float Hdiff = EnemyToFight.GetComponent<Stats>().health - playerobj.GetComponent<Stats>().health;
+                    if (Hdiff < 50)
                     {
-                        BattleRound(playerobj, EnemyToFight);
-                        combatState = CombatState.Enemyturn;
-                        //combatState = CombatState.Enemyturn;
-                        //player gains exp if enemy is defeated.
-                        if (EnemyToFight.GetComponent<Stats>().isDefeated)
+                        if (Random.Range(1, 11) > 2)
                         {
-                            RemoveEnemy(EnemyToFight);
-                            playerobj.GetComponent<Stats>().TotalExp += playerobj.GetComponent<Stats>().expGained;
-                        }
-                        //player levels up if enough exp is gained
-                        playerobj.GetComponent<Stats>().reqExp = (int)Mathf.Pow(playerobj.GetComponent<Stats>().level + 3, 3) + 100;
-                        if (playerobj.GetComponent<Stats>().TotalExp > playerobj.GetComponent<Stats>().reqExp)
-                        {
-                            //PLAYER LEVELS UP
-                            playerobj.GetComponent<Stats>().level += 1;
-                            playerobj.GetComponent<Stats>().health += 10;
-                            Debug.Log("^LEVEL UP^ Select  a Skill to proceed");
-                            //SkillSelect();
-                            //enemy levels up if player leveld up
-                            //checks if enemy and player on same level and based on that increases the enemy's health.
-                            //also increases enemy's level.
-                            if (EnemyToFight.GetComponent<Stats>().Enemylvl < playerobj.GetComponent<Stats>().level)
+                            BattleRound(playerobj, EnemyToFight);
+                            //combatState = CombatState.Enemyturn;
+                            //player gains exp if enemy is defeated.
+                            if (EnemyToFight.GetComponent<Stats>().isDefeated)
                             {
-                                playerobj.GetComponent<Stats>().Enemylvl += 1;
-                                EnemyToFight.GetComponent<Stats>().health = (EnemyToFight.GetComponent<Stats>().health + 10);
+                                RemoveEnemy(EnemyToFight);
+                                playerobj.GetComponent<Stats>().TotalExp += playerobj.GetComponent<Stats>().expGained;
+                            }
+                            //player levels up if enough exp is gained
+                            playerobj.GetComponent<Stats>().reqExp = (int)Mathf.Pow(playerobj.GetComponent<Stats>().level + 3, 3) + 100;
+                            if (playerobj.GetComponent<Stats>().TotalExp > playerobj.GetComponent<Stats>().reqExp)
+                            {
+                                //PLAYER LEVELS UP
+                                playerobj.GetComponent<Stats>().level += 1;
+                                playerobj.GetComponent<Stats>().health += 10;
+                                Debug.Log("^LEVEL UP^ Select  a Skill to proceed");
+                                //SkillSelect();
+                                //enemy levels up if player leveld up
+                                //checks if enemy and player on same level and based on that increases the enemy's health.
+                                //also increases enemy's level.
+                                if (EnemyToFight.GetComponent<Stats>().Enemylvl < playerobj.GetComponent<Stats>().level)
+                                {
+                                    playerobj.GetComponent<Stats>().Enemylvl += 1;
+                                    EnemyToFight.GetComponent<Stats>().health = (EnemyToFight.GetComponent<Stats>().health + 10);
+                                }
                             }
                         }
+                        else
+                        {
+                            Debug.Log("Attack missed");
+                        }
                     }
-                    else
+                    else if (Hdiff > 50)
                     {
-                        Debug.Log("Attack missed");
+                        if (Random.Range(1, 11) > 6)
+                        {
+                            BattleRound(playerobj, EnemyToFight);
+                            //combatState = CombatState.Enemyturn;
+                            //player gains exp if enemy is defeated.
+                            if (EnemyToFight.GetComponent<Stats>().isDefeated)
+                            {
+                                RemoveEnemy(EnemyToFight);
+                                playerobj.GetComponent<Stats>().TotalExp += playerobj.GetComponent<Stats>().expGained;
+                            }
+                            //player levels up if enough exp is gained
+                            playerobj.GetComponent<Stats>().reqExp = (int)Mathf.Pow(playerobj.GetComponent<Stats>().level + 3, 3) + 100;
+                            if (playerobj.GetComponent<Stats>().TotalExp > playerobj.GetComponent<Stats>().reqExp)
+                            {
+                                //PLAYER LEVELS UP
+                                playerobj.GetComponent<Stats>().level += 1;
+                                playerobj.GetComponent<Stats>().health += 10;
+                                playerobj.GetComponent<Stats>().maxHP += 10;
+                                Debug.Log("^LEVEL UP^");
+                                //SkillSelect();
+                                //enemy levels up if player leveld up
+                                //checks if enemy and player on same level and based on that increases the enemy's health.
+                                //also increases enemy's level.
+                                if (EnemyToFight.GetComponent<Stats>().Enemylvl < playerobj.GetComponent<Stats>().level)
+                                {
+                                    playerobj.GetComponent<Stats>().Enemylvl += 1;
+                                    EnemyToFight.GetComponent<Stats>().health = (EnemyToFight.GetComponent<Stats>().health + 10);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("Attack missed");
+                        }
+
+
+                        //}
+
+                        //player eneds turn.
+                    }
+
+                    if (combatState != CombatState.Victory && combatState != CombatState.Loss)
+                    {
                         combatState = CombatState.Enemyturn;
+                        Debug.Log(combatState);
+                        doBattle = true;
                     }
                 }
-                else if (Hdiff > 50)
-                {
-                    if (Random.Range(1, 11) > 6)
-                    {
-                        BattleRound(playerobj, EnemyToFight);
-                        combatState = CombatState.Enemyturn;
-                        //combatState = CombatState.Enemyturn;
-                        //player gains exp if enemy is defeated.
-                        if (EnemyToFight.GetComponent<Stats>().isDefeated)
-                        {
-                            RemoveEnemy(EnemyToFight);
-                            playerobj.GetComponent<Stats>().TotalExp += playerobj.GetComponent<Stats>().expGained;
-                        }
-                        //player levels up if enough exp is gained
-                        playerobj.GetComponent<Stats>().reqExp = (int)Mathf.Pow(playerobj.GetComponent<Stats>().level + 3, 3) + 100;
-                        if (playerobj.GetComponent<Stats>().TotalExp > playerobj.GetComponent<Stats>().reqExp)
-                        {
-                            //PLAYER LEVELS UP
-                            playerobj.GetComponent<Stats>().level += 1;
-                            playerobj.GetComponent<Stats>().health += 10;
-                            playerobj.GetComponent<Stats>().maxHP += 10;
-                            Debug.Log("^LEVEL UP^");
-                            //SkillSelect();
-                            //enemy levels up if player leveld up
-                            //checks if enemy and player on same level and based on that increases the enemy's health.
-                            //also increases enemy's level.
-                            if (EnemyToFight.GetComponent<Stats>().Enemylvl < playerobj.GetComponent<Stats>().level)
-                            {
-                                playerobj.GetComponent<Stats>().Enemylvl += 1;
-                                EnemyToFight.GetComponent<Stats>().health = (EnemyToFight.GetComponent<Stats>().health + 10);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Debug.Log("Attack missed");
-                        combatState = CombatState.Enemyturn;
-                    }
-                //}
-                
-                //player eneds turn.
-                 }
                 break;
             case CombatState.Enemyturn:
                 //enemy attacks.
                 //StartCoroutine(Battlego());
-                BattleRound(EnemyToFight, playerobj);
-                //player loses if enemy defeats the player.
-                if(playerobj.GetComponent<Stats>().isDefeated)
+                if (playerobj.GetComponent<Stats>().isDefeated)
                 {
                     combatState = CombatState.Loss;
                 }
-                //enemy's turn ends.
-                combatState = CombatState.Playerturn;
+                else
+                {
+                    BattleRound(EnemyToFight, playerobj);
+                    //player loses if enemy defeats the player.
+                    //enemy's turn ends.
+                    combatState = CombatState.Playerturn;
+                    Debug.Log("enemys turn ended");
+                }
+                
                 break;
             case CombatState.Victory:
                 //player wins if all the required numbe rof enemies are defeated.
@@ -314,10 +323,10 @@ public class BattleManager : MonoBehaviour
     }
     IEnumerator Battlego()
     {
-        if(isInCombat)
-        CheckCombatState();          
+        //if(isInCombat)
+              
         yield return new WaitForSeconds(3f);
-        //doBattle = true;
+        CheckCombatState();
     }  
 
 
