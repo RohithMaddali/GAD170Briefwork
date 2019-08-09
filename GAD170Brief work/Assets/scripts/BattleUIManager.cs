@@ -9,6 +9,7 @@ public class BattleUIManager : MonoBehaviour
     private Button Attack;
     private Button Health;
     private Button Defense;
+    private Button HardReset;
 
     public Image phealthBarFill;
     public Image ehealthBarFill;
@@ -19,6 +20,7 @@ public class BattleUIManager : MonoBehaviour
     public event System.Action CallDefense;
     public event System.Action CallHealth;
     public event System.Action CallAttackButton;
+    public event System.Action CallHardReset;
 
     public Text[] combatLogLines;
 
@@ -35,6 +37,7 @@ public class BattleUIManager : MonoBehaviour
     {
         //StartCoroutine(DebugLogTest());
     }
+    
 
     // Update is called once per frame
     void Update()
@@ -57,6 +60,7 @@ public class BattleUIManager : MonoBehaviour
     public void CallAttackButtonEvent()
     {
         combatLogLines[0].text = "Player Attacked the Enemy";
+        StartCoroutine(Battlego());
         Debug.Log("Attacked");
         CallAttackButton();
     }
@@ -78,6 +82,13 @@ public class BattleUIManager : MonoBehaviour
         Debug.Log("Health increased");
         CallHealth();
     }
+    public void CallHardResetEvent()
+    {
+        Debug.Log("Game Reset");
+        CallHardReset();
+    }
+
+    
     //Function for updating text
     /*public void UpdateCombatLog()
     {
@@ -115,4 +126,12 @@ public class BattleUIManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         UpdateCombatLog();
     }*/
+    IEnumerator Battlego()
+    {
+        yield return new WaitForSeconds(3f);
+        combatLogLines[1].text = "Enemy Attacked Player";
+        yield return new WaitForSeconds(1.5f);
+        combatLogLines[0].text = "";
+        combatLogLines[1].text = "";
+    }
 }

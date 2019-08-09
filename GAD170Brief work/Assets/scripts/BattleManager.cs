@@ -44,7 +44,7 @@ public class BattleManager : MonoBehaviour
     //objects to store player's and enemy's stats.
     public GameObject playerobj;
     private GameObject battleUIManager;
-    private CombatState combatstate;
+    
 
     void Start()
     {
@@ -60,7 +60,7 @@ public class BattleManager : MonoBehaviour
         battleUIManager.GetComponent<BattleUIManager>().CallAttackButton += CheckCombatState;
         battleUIManager.GetComponent<BattleUIManager>().CallDefense += SkillSelectDefense;
         battleUIManager.GetComponent<BattleUIManager>().CallAttack += SkillSelectAttack;
-        battleUIManager.GetComponent<BattleUIManager>().CallHealth += SkillSelectHealth; ;
+        battleUIManager.GetComponent<BattleUIManager>().CallHealth += SkillSelectHealth; 
     }
 
     void Update()
@@ -82,7 +82,7 @@ public class BattleManager : MonoBehaviour
 
     void SetNewEnemyToFight()
     {
-        EnemyToFight = Instantiate(EnemySpawnList[0], transform);
+        EnemyToFight = EnemySpawnList[Random.Range(0, EnemySpawnList.Count)];
         //StartCoroutine(Battlego());
     }
 

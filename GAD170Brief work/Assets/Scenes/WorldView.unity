@@ -252,7 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7c115d43f731c042847b91ac4936e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
+  health: 100
   attack: 0
   attspeed: 0
   defense: 0
@@ -262,7 +262,7 @@ MonoBehaviour:
   expGained: 0
   TotalExp: 0
   reqExp: 0
-  maxHP: 0
+  maxHP: 100
   isDefeated: 0
   myStatus: 0
   attackEffect: 0
@@ -1212,6 +1212,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da85fb30f5c81374ba1ca84aded0a6c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EnemySpawnList: []
+  EnemiesToFight: []
 --- !u!4 &1005498446
 Transform:
   m_ObjectHideFlags: 0
