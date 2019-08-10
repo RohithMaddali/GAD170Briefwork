@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        LoadPlayerStuff(true);
+        //LoadPlayerStuff(true);
     }
 
     public void TravelToWorld(Worlds destination)
@@ -120,6 +120,7 @@ public class GameManager : MonoBehaviour
         //used to reset the entire game
         PlayerPrefs.DeleteAll();
         SceneManager.LoadScene("WorldView");
+        Debug.Log("Save Data Deleted");
     }
 
    
@@ -127,6 +128,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+       
     }
 }

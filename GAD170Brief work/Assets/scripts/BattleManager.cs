@@ -19,6 +19,8 @@ public class BattleManager : MonoBehaviour
     public int nooFEnemies;
     private int count = 0;
     int defeatCount = 0;
+    public Vector3 Spawnloc;
+    private Button Attackbutton;
 
     private GameObject gameManager;
 
@@ -82,7 +84,9 @@ public class BattleManager : MonoBehaviour
 
     void SetNewEnemyToFight()
     {
+        
         EnemyToFight = EnemySpawnList[Random.Range(0, EnemySpawnList.Count)];
+        
         //StartCoroutine(Battlego());
     }
 
@@ -202,6 +206,7 @@ public class BattleManager : MonoBehaviour
                 }
                 else
                 {
+                    
                     BattleRound(EnemyToFight, playerobj);
                     //player loses if enemy defeats the player.
                     //enemy's turn ends.

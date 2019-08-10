@@ -24,7 +24,7 @@ public class BattleUIManager : MonoBehaviour
 
     public Text[] combatLogLines;
 
-    BattleManager BManager;
+    
 
     void Awake()
     {
@@ -42,7 +42,22 @@ public class BattleUIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (bManager.GetComponent<BattleManager>().combatState == BattleManager.CombatState.Victory)
+        {
+            combatLogLines[0].text = "You Have Defeated the Enemy";
+            combatLogLines[1].text = "You Have Defeated the Enemy";
+        }
+        else if (bManager.GetComponent<BattleManager>().combatState == BattleManager.CombatState.Loss)
+        {
+            combatLogLines[0].text = "You have lost all of your health";
+            combatLogLines[1].text = "You have lost all of your health";
+        }
+
+        if(bManager.GetComponent<BattleManager>().combatState == BattleManager.CombatState.Enemyturn)
+        {
+            Attackbutton.GetComponent<Button>().interactable = false;
+            Debug.Log("Button is disabled.");
+        }
     }
 
     public void UpdateHealthBar(int isplayer, float health)
@@ -59,10 +74,13 @@ public class BattleUIManager : MonoBehaviour
 
     public void CallAttackButtonEvent()
     {
-        combatLogLines[0].text = "Player Attacked the Enemy";
-        StartCoroutine(Battlego());
-        Debug.Log("Attacked");
-        CallAttackButton();
+        if (bManager.GetComponent<BattleManager>().combatState != BattleManager.CombatState.Victory && bManager.GetComponent<BattleManager>().combatState != BattleManager.CombatState.Loss)
+        {
+            combatLogLines[0].text = "Player Attacked the Enemy";
+            StartCoroutine(Battlego());
+            CallAttackButton();
+        }
+        
     }
 
     public void CallAttackEvent()
@@ -88,7 +106,7 @@ public class BattleUIManager : MonoBehaviour
         CallHardReset();
     }
 
-    
+
     //Function for updating text
     /*public void UpdateCombatLog()
     {
@@ -128,10 +146,12 @@ public class BattleUIManager : MonoBehaviour
     }*/
     IEnumerator Battlego()
     {
-        yield return new WaitForSeconds(3f);
-        combatLogLines[1].text = "Enemy Attacked Player";
-        yield return new WaitForSeconds(1.5f);
-        combatLogLines[0].text = "";
-        combatLogLines[1].text = "";
+            yield return new WaitForSeconds(3f);
+            combatLogLines[1].text = "Enemy Attacked Player";
+            yield return new WaitForSeconds(1.5f);
+            combatLogLines[0].text = "";
+            combatLogLines[1].text = "";
+        
     }
+
 }
