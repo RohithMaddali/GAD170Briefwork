@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        //LoadPlayerStuff(true);
+        LoadPlayerStuff(true);
     }
 
     public void TravelToWorld(Worlds destination)
