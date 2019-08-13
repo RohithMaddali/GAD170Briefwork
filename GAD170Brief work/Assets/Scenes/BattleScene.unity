@@ -2447,9 +2447,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemyList:
-  - {fileID: 2111958333}
-  - {fileID: 1654749988}
   - {fileID: 511646502}
+  - {fileID: 1654749988}
+  - {fileID: 2111958333}
   EnemySpawnList: []
   EnemyToFight: {fileID: 0}
   isInCombat: 1

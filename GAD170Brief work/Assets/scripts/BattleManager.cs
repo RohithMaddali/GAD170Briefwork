@@ -23,6 +23,7 @@ public class BattleManager : MonoBehaviour
     private Button Attackbutton;
 
     private GameObject gameManager;
+    
 
     public event System.Action<int, float> UpdateHealth;
 
@@ -58,6 +59,7 @@ public class BattleManager : MonoBehaviour
 
     void Awake()
     {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager");
         battleUIManager = GameObject.FindGameObjectWithTag("BattleUIManager");
         battleUIManager.GetComponent<BattleUIManager>().CallAttackButton += CheckCombatState;
         battleUIManager.GetComponent<BattleUIManager>().CallDefense += SkillSelectDefense;
@@ -247,6 +249,8 @@ public class BattleManager : MonoBehaviour
         {
             Debug.Log("You win!!");
             combatState = CombatState.Victory;
+            gameManager.GetComponent<GameManager>().TravelToWorld(GameManager.Worlds.WorldView);
+
         }
         else
         {
@@ -315,6 +319,9 @@ public class BattleManager : MonoBehaviour
             if (EnemyToFight.GetComponent<Stats>().isDefeated)
             {
                 Debug.Log("Player hp : " + " 0 ");
+                Debug.Log("You Lost");
+                gameManager.GetComponent<GameManager>().TravelToWorld(GameManager.Worlds.WorldView);
+
             }
             else
             {
