@@ -21,6 +21,7 @@ public class BattleManager : MonoBehaviour
     int defeatCount = 0;
     public Vector3 Spawnloc;
     private Button Attackbutton;
+    public Vector3 position;
 
     private GameObject gameManager;
     
@@ -88,6 +89,8 @@ public class BattleManager : MonoBehaviour
     {
         
         EnemyToFight = EnemySpawnList[Random.Range(0, EnemySpawnList.Count)];
+        Vector3 position = new Vector3(-9.13f, 3.94f);
+        Instantiate(EnemyToFight, position, Quaternion.identity);
         
         //StartCoroutine(Battlego());
     }
