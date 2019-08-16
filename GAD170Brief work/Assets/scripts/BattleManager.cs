@@ -53,6 +53,7 @@ public class BattleManager : MonoBehaviour
     void Start()
     {
         //public bool doBattle = true;
+        gameManager.GetComponent<GameManager>().LoadPlayerStuff(false);
         EnemySpawnList.Add(EnemyList[(Random.Range(0, EnemyList.Count))]);
         SetNewEnemyToFight();
         //UpdateHealth(true, 0.5f); 
@@ -60,6 +61,7 @@ public class BattleManager : MonoBehaviour
 
     void Awake()
     {
+        //used for buttons in order to perfrom the following function on clicking the buttons.
         gameManager = GameObject.FindGameObjectWithTag("GameManager");
         battleUIManager = GameObject.FindGameObjectWithTag("BattleUIManager");
         battleUIManager.GetComponent<BattleUIManager>().CallAttackButton += CheckCombatState;
@@ -87,7 +89,8 @@ public class BattleManager : MonoBehaviour
 
     void SetNewEnemyToFight()
     {
-        
+
+        //spawning and setting the enemy to fight once player enters battle scene.
         EnemyToFight = EnemySpawnList[Random.Range(0, EnemySpawnList.Count)];
         Vector3 position = new Vector3(-9.13f, 3.94f);
         Instantiate(EnemyToFight, position, Quaternion.identity);
@@ -125,16 +128,16 @@ public class BattleManager : MonoBehaviour
                             if (EnemyToFight.GetComponent<Stats>().isDefeated)
                             {
                                 RemoveEnemy(EnemyToFight);
-                                playerobj.GetComponent<Stats>().TotalExp += playerobj.GetComponent<Stats>().expGained;
+                                
                             }
                             //player levels up if enough exp is gained
                             playerobj.GetComponent<Stats>().reqExp = (int)Mathf.Pow(playerobj.GetComponent<Stats>().level + 3, 3) + 100;
-                            if (playerobj.GetComponent<Stats>().TotalExp > playerobj.GetComponent<Stats>().reqExp)
+                            if (playerobj.GetComponent<Stats>().expGained > playerobj.GetComponent<Stats>().reqExp)
                             {
                                 //PLAYER LEVELS UP
                                 playerobj.GetComponent<Stats>().level += 1;
                                 playerobj.GetComponent<Stats>().health += 10;
-                                Debug.Log("^LEVEL UP^ Select  a Skill to proceed");
+                                Debug.Log("^LEVEL UP^ Select  a Skill ");
                                 //SkillSelect();
                                 //enemy levels up if player leveld up
                                 //checks if enemy and player on same level and based on that increases the enemy's health.
@@ -161,17 +164,16 @@ public class BattleManager : MonoBehaviour
                             if (EnemyToFight.GetComponent<Stats>().isDefeated)
                             {
                                 RemoveEnemy(EnemyToFight);
-                                playerobj.GetComponent<Stats>().TotalExp += playerobj.GetComponent<Stats>().expGained;
                             }
                             //player levels up if enough exp is gained
                             playerobj.GetComponent<Stats>().reqExp = (int)Mathf.Pow(playerobj.GetComponent<Stats>().level + 3, 3) + 100;
-                            if (playerobj.GetComponent<Stats>().TotalExp > playerobj.GetComponent<Stats>().reqExp)
+                            if (playerobj.GetComponent<Stats>().expGained > playerobj.GetComponent<Stats>().reqExp)
                             {
                                 //PLAYER LEVELS UP
                                 playerobj.GetComponent<Stats>().level += 1;
                                 playerobj.GetComponent<Stats>().health += 10;
                                 playerobj.GetComponent<Stats>().maxHP += 10;
-                                Debug.Log("^LEVEL UP^");
+                                Debug.Log("^LEVEL UP^ select a skill");
                                 //SkillSelect();
                                 //enemy levels up if player leveld up
                                 //checks if enemy and player on same level and based on that increases the enemy's health.
@@ -241,10 +243,11 @@ public class BattleManager : MonoBehaviour
     //remove an enemy if dead
     public void RemoveEnemy(GameObject EnemyToRemove)
     {
+        
         //count the no of enemies defeated
         defeatCount += 1;
         //calculate the player's increase in exp.
-        playerobj.GetComponent<Stats>().expGained = (count * 2) + 60;
+        playerobj.GetComponent<Stats>().expGained += (count * 2) + 60;
         EnemySpawnList.Remove(EnemyToFight);
         Destroy(EnemyToFight);
         count = 0;
@@ -319,7 +322,7 @@ public class BattleManager : MonoBehaviour
             Debug.Log("ENEMY ATTACKS PLAYER");
             defender.GetComponent<Stats>().Attacked(attacker.GetComponent<Stats>().attack, Stats.StatusEffect.none);
             
-            if (EnemyToFight.GetComponent<Stats>().isDefeated)
+            if (playerobj.GetComponent<Stats>().isDefeated)
             {
                 Debug.Log("Player hp : " + " 0 ");
                 Debug.Log("You Lost");
@@ -340,11 +343,9 @@ public class BattleManager : MonoBehaviour
     {
         //if(isInCombat)
               
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         CheckCombatState();
-    }  
-
-
+    }
 }
 
 

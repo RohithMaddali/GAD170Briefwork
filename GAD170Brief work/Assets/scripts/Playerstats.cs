@@ -6,10 +6,14 @@ using UnityEngine;
 public class Playerstats : MonoBehaviour
 {
     public Stats myStats;
+    private GameObject gameManager;
 
     void Start()
     {
         myStats = GetComponent<Stats>();
+        gameManager = GameObject.FindGameObjectWithTag("GameManager");
+        gameManager.GetComponent<GameManager>().LoadPlayerStuff(true);
+
     }
        
     }

@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public List<GameObject> EnemySpawnList;
     public List<GameObject> EnemiesToFight;
     private GameObject battleUIManager;
+    
 
     public enum Worlds
     {
@@ -25,6 +26,7 @@ public class GameManager : MonoBehaviour
     {
         //this will make it so we can travel between scenes (good for keeping track of game play)
         battleUIManager = GameObject.FindGameObjectWithTag("BattleUIManager");
+        if(battleUIManager != null)
         battleUIManager.GetComponent<BattleUIManager>().CallHardReset += DeleteSavedStuff;
         if (gameManRef == null)
         {
@@ -52,20 +54,29 @@ public class GameManager : MonoBehaviour
                 //load overworld scene;
                 SavePlayerStuff(false);
                 SceneManager.LoadScene("WorldView");
-                LoadPlayerStuff(true);
+                //LoadPlayerStuff(true);
                 break;
             case Worlds.BattleScene:
                 //load battlescene
                 SavePlayerStuff(true);
                 SceneManager.LoadScene("BattleScene");
-                LoadPlayerStuff(false);
+                //LoadPlayerStuff(false);
                 break;
         }
     }
 
     void SavePlayerStuff(bool isFromOverworld)
     {
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        string tag;
+        if (isFromOverworld)
+        {
+            tag = "Player";
+        }
+        else
+        {
+            tag = "BattlePlayer";
+        }
+        GameObject playerObj = GameObject.FindGameObjectWithTag(tag);
         //only save position in overworld
         if (isFromOverworld)
         {
@@ -79,36 +90,46 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetFloat("PlayerRoty", transform.rotation.y);
             PlayerPrefs.SetFloat("PlayerRotz", transform.rotation.z);
         }
-        Stats playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<Stats>();
+        
+        Stats playerStats = GameObject.FindGameObjectWithTag(tag).GetComponent<Stats>();
         PlayerPrefs.SetFloat("playerHealth", playerStats.health);
         PlayerPrefs.SetInt("playerLevel", playerStats.level);
         PlayerPrefs.SetInt("playerDamage", playerStats.attack);
         PlayerPrefs.SetInt("playerExpReq", playerStats.reqExp);
-        PlayerPrefs.SetInt("playerTotalExp", playerStats.TotalExp);
         PlayerPrefs.SetInt("playerGainedExp", playerStats.expGained);
         PlayerPrefs.SetFloat("playerDefense", playerStats.defense);
         PlayerPrefs.SetFloat("playerHealthMax", playerStats.maxHP);
     }
 
-    void LoadPlayerStuff(bool goingToOverworld)
+    public void LoadPlayerStuff(bool goingToOverworld)
     {
+        string tag;
+        if(goingToOverworld)
+        {
+            tag = "Player";
+        }
+        else
+        {
+            tag = "BattlePlayer";
+        }
         //load the existing stats and apply them to the player!
-        Stats playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<Stats>();
+        GameObject player = GameObject.FindGameObjectWithTag(tag);
+        Stats playerStats = player.GetComponent<Stats>();
+        //Debug.Log(player.name);
         playerStats.health = PlayerPrefs.GetFloat("playerHealth", 100f);
-        playerStats.level = PlayerPrefs.GetInt("playerLevel", 0);
-        playerStats.attack = PlayerPrefs.GetInt("playerDamage", 10);
-        playerStats.reqExp = PlayerPrefs.GetInt("playerExpReq", 0);
-        playerStats.TotalExp = PlayerPrefs.GetInt("playerTotalExp", 0);
-        playerStats.expGained = PlayerPrefs.GetInt("playerGainedExp", 0);
-        playerStats.defense = PlayerPrefs.GetFloat("playerDefense", 0);
-        playerStats.maxHP = PlayerPrefs.GetFloat("playerHealthMax", 100f);
+        playerStats.level = PlayerPrefs.GetInt("playerLevel", playerStats.level);
+        playerStats.attack = PlayerPrefs.GetInt("playerDamage", playerStats.attack);
+        playerStats.reqExp = PlayerPrefs.GetInt("playerExpReq", playerStats.reqExp);
+        playerStats.expGained = PlayerPrefs.GetInt("playerGainedExp", playerStats.expGained);
+        playerStats.defense = PlayerPrefs.GetFloat("playerDefense", playerStats.defense);
+        playerStats.maxHP = PlayerPrefs.GetFloat("playerHealthMax", playerStats.maxHP);
 
         //load position only in overworld
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (goingToOverworld)
         {
-            playerObj.transform.position = new Vector3(PlayerPrefs.GetFloat("playerPosx", 0f), PlayerPrefs.GetFloat("playerPosy", 2f),
-                                                   PlayerPrefs.GetFloat("playerPosz", 0f));
+            playerObj.transform.position = new Vector3(PlayerPrefs.GetFloat("playerPosx", 8.14f), PlayerPrefs.GetFloat("playerPosy", 2f),
+                                                   PlayerPrefs.GetFloat("playerPosz", -1.43f));
             playerObj.transform.rotation = Quaternion.Euler(PlayerPrefs.GetFloat("playerRotx", 0f), PlayerPrefs.GetFloat("playerRoty", 2f),
                                                    PlayerPrefs.GetFloat("playerRotz", 0f));
         }
