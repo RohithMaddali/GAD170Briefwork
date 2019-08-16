@@ -117,6 +117,24 @@ public class BattleManager : MonoBehaviour
                 {
                     //{
                     //player attacks
+                    playerobj.GetComponent<Stats>().reqExp = (int)Mathf.Pow(playerobj.GetComponent<Stats>().level + 3, 3) + 100;
+                    if (playerobj.GetComponent<Stats>().expGained > playerobj.GetComponent<Stats>().reqExp)
+                    {
+                        //PLAYER LEVELS UP
+                        playerobj.GetComponent<Stats>().level += 1;
+                        playerobj.GetComponent<Stats>().health += 10;
+                        playerobj.GetComponent<Stats>().maxHP += 10;
+                        Debug.Log("^LEVEL UP^ select a skill");
+                        //SkillSelect();
+                        //enemy levels up if player leveld up
+                        //checks if enemy and player on same level and based on that increases the enemy's health.
+                        //also increases enemy's level.
+                        if (EnemyToFight.GetComponent<Stats>().Enemylvl < playerobj.GetComponent<Stats>().level)
+                        {
+                            playerobj.GetComponent<Stats>().Enemylvl += 1;
+                            EnemyToFight.GetComponent<Stats>().health = (EnemyToFight.GetComponent<Stats>().health + 10);
+                        }
+                    }
                     float Hdiff = EnemyToFight.GetComponent<Stats>().health - playerobj.GetComponent<Stats>().health;
                     if (Hdiff < 50)
                     {
@@ -131,30 +149,14 @@ public class BattleManager : MonoBehaviour
                                 
                             }
                             //player levels up if enough exp is gained
-                            playerobj.GetComponent<Stats>().reqExp = (int)Mathf.Pow(playerobj.GetComponent<Stats>().level + 3, 3) + 100;
-                            if (playerobj.GetComponent<Stats>().expGained > playerobj.GetComponent<Stats>().reqExp)
-                            {
-                                //PLAYER LEVELS UP
-                                playerobj.GetComponent<Stats>().level += 1;
-                                playerobj.GetComponent<Stats>().health += 10;
-                                Debug.Log("^LEVEL UP^ Select  a Skill ");
-                                //SkillSelect();
-                                //enemy levels up if player leveld up
-                                //checks if enemy and player on same level and based on that increases the enemy's health.
-                                //also increases enemy's level.
-                                if (EnemyToFight.GetComponent<Stats>().Enemylvl < playerobj.GetComponent<Stats>().level)
-                                {
-                                    playerobj.GetComponent<Stats>().Enemylvl += 1;
-                                    EnemyToFight.GetComponent<Stats>().health = (EnemyToFight.GetComponent<Stats>().health + 10);
-                                }
-                            }
+                            
                         }
                         else
                         {
                             Debug.Log("Attack missed");
                         }
                     }
-                    else if (Hdiff > 50)
+                    else if (Hdiff > 50 && Hdiff < 70)
                     {
                         if (Random.Range(1, 11) > 6)
                         {
@@ -167,23 +169,32 @@ public class BattleManager : MonoBehaviour
                             }
                             //player levels up if enough exp is gained
                             playerobj.GetComponent<Stats>().reqExp = (int)Mathf.Pow(playerobj.GetComponent<Stats>().level + 3, 3) + 100;
-                            if (playerobj.GetComponent<Stats>().expGained > playerobj.GetComponent<Stats>().reqExp)
+                            
+                        }
+                        else
+                        {
+                            Debug.Log("Attack missed");
+                        }
+
+
+                        //}
+
+                        //player eneds turn.
+                    }
+                    else if (Hdiff > 70 && Hdiff < 100)
+                    {
+                        if (Random.Range(1, 11) > 6)
+                        {
+                            BattleRound(playerobj, EnemyToFight);
+                            //combatState = CombatState.Enemyturn;
+                            //player gains exp if enemy is defeated.
+                            if (EnemyToFight.GetComponent<Stats>().isDefeated)
                             {
-                                //PLAYER LEVELS UP
-                                playerobj.GetComponent<Stats>().level += 1;
-                                playerobj.GetComponent<Stats>().health += 10;
-                                playerobj.GetComponent<Stats>().maxHP += 10;
-                                Debug.Log("^LEVEL UP^ select a skill");
-                                //SkillSelect();
-                                //enemy levels up if player leveld up
-                                //checks if enemy and player on same level and based on that increases the enemy's health.
-                                //also increases enemy's level.
-                                if (EnemyToFight.GetComponent<Stats>().Enemylvl < playerobj.GetComponent<Stats>().level)
-                                {
-                                    playerobj.GetComponent<Stats>().Enemylvl += 1;
-                                    EnemyToFight.GetComponent<Stats>().health = (EnemyToFight.GetComponent<Stats>().health + 10);
-                                }
+                                RemoveEnemy(EnemyToFight);
                             }
+                            //player levels up if enough exp is gained
+                            playerobj.GetComponent<Stats>().reqExp = (int)Mathf.Pow(playerobj.GetComponent<Stats>().level + 3, 3) + 100;
+
                         }
                         else
                         {

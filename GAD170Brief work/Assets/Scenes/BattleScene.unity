@@ -821,12 +821,22 @@ PrefabInstance:
     - target: {fileID: 4615491564371019617, guid: 917dff3e2fb88a5439b05057c5e6afc9,
         type: 3}
       propertyPath: maxHP
-      value: 170
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 4615491564371019617, guid: 917dff3e2fb88a5439b05057c5e6afc9,
         type: 3}
       propertyPath: health
-      value: 170
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 4615491564371019617, guid: 917dff3e2fb88a5439b05057c5e6afc9,
+        type: 3}
+      propertyPath: attspeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4615491564371019617, guid: 917dff3e2fb88a5439b05057c5e6afc9,
+        type: 3}
+      propertyPath: attack
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 917dff3e2fb88a5439b05057c5e6afc9, type: 3}
@@ -1125,7 +1135,6 @@ MonoBehaviour:
   level: 0
   Enemylvl: 0
   expGained: 0
-  TotalExp: 0
   reqExp: 0
   maxHP: 50
   isDefeated: 0
@@ -2591,7 +2600,6 @@ MonoBehaviour:
   level: 0
   Enemylvl: 0
   expGained: 0
-  TotalExp: 0
   reqExp: 0
   maxHP: 0
   isDefeated: 0
@@ -2759,6 +2767,11 @@ PrefabInstance:
         type: 3}
       propertyPath: maxHP
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330155677626933879, guid: cf7eccc7ce40dab45a44ffb910a6b85b,
+        type: 3}
+      propertyPath: attack
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf7eccc7ce40dab45a44ffb910a6b85b, type: 3}
@@ -3960,6 +3973,11 @@ PrefabInstance:
         type: 3}
       propertyPath: isDefeated
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8891998788801630974, guid: d84bbb41897f9494484f3235cac8a193,
+        type: 3}
+      propertyPath: attack
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d84bbb41897f9494484f3235cac8a193, type: 3}
