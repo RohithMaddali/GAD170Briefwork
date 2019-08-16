@@ -55,8 +55,8 @@ public class BattleUIManager : MonoBehaviour
 
         if(bManager.GetComponent<BattleManager>().combatState == BattleManager.CombatState.Enemyturn)
         {
-            Attackbutton.GetComponent<Button>().interactable = false;
-            Debug.Log("Button is disabled.");
+            //Attackbutton.GetComponent<Button>().interactable = false;
+           // Debug.Log("Button is disabled.");
         }
     }
 
@@ -106,47 +106,9 @@ public class BattleUIManager : MonoBehaviour
         CallHardReset();
     }
 
-
-    //Function for updating text
-    /*public void UpdateCombatLog()
-    {
-        /*string p = "Player Attacks Enemy";
-        string e = "Enemy Attacks Player";
-        combatLog.Insert(0, p);
-        combatLog.Insert(1, e);
-
-        combatLog.Insert(0, " ________");
-
-
-        if (combatLog.Count > combatLogLines.Length)
-        {
-            combatLog.RemoveAt(combatLog.Count - 1);
-        }
-
-        for(int i = 0; i < combatLog.Count; i++)
-        {
-           if(bManager.GetComponent<BattleManager>().combatState == BattleManager.CombatState.Playerturn)
-            {
-                combatLogLines[i].text = combatLog[i].Insert(i, "Player Attacks Enemy__________");
-            }
-           else if(bManager.GetComponent<BattleManager>().combatState == BattleManager.CombatState.Enemyturn)
-            {
-                combatLogLines[i].text = combatLog[i].Insert(i, "Enemy Attacks Player___________");
-            }
-        }
-        //StartCoroutine(DebugLogTest());
-    }
-
-    /*IEnumerator DebugLogTest()
-    {
-        int randomNumber = Random.Range(1, 1000);
-
-        yield return new WaitForSeconds(3f);
-        UpdateCombatLog();
-    }*/
     IEnumerator Battlego()
     {
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(2f);
             combatLogLines[1].text = "Enemy Attacked Player";
             yield return new WaitForSeconds(1.5f);
             combatLogLines[0].text = "";
