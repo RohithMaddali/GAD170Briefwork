@@ -54,7 +54,7 @@ public class BattleUIManager : MonoBehaviour
         }
         if(bManager.GetComponent<BattleManager>().playerobj.GetComponent<Stats>().expGained > bManager.GetComponent<BattleManager>().playerobj.GetComponent<Stats>().reqExp)
         {
-            combatLogLines[2].text = "You have leveld up!! Select a skill to upgrade";
+            combatLogLines[2].text = "You have leveld up!! Select a skill";
         }
 
         if(bManager.GetComponent<BattleManager>().combatState == BattleManager.CombatState.Enemyturn)
@@ -114,10 +114,10 @@ public class BattleUIManager : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         combatLogLines[1].text = "Enemy Attacked Player";
+        combatLogLines[2].text = "";
         yield return new WaitForSeconds(1.5f);
         combatLogLines[0].text = "";
         combatLogLines[1].text = "";
-        combatLogLines[2].text = "";
 
         
     }
